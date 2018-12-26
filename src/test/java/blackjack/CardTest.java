@@ -18,4 +18,18 @@ public class CardTest {
         assertEquals("H10", heartsTen.uniqueCardId());
         assertEquals("SQ", spadesQueen.uniqueCardId());
     }
+
+    @Test
+    public void construct_card_from_unique_card_id(){
+        Card clubsAce = new Card("CA");
+        Card diamondsFour = new Card("D4");
+        Card heartsTen = new Card("H10");
+        Card spadesQueen = new Card("SQ");
+
+        assertEquals("CA", clubsAce.uniqueCardId());
+        assertEquals("D4", diamondsFour.uniqueCardId());
+        assertEquals("H10", heartsTen.uniqueCardId());
+        assertEquals("SQ", spadesQueen.uniqueCardId());
+
+    }
 }
