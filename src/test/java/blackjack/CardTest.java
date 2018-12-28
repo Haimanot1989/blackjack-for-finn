@@ -1,17 +1,25 @@
 package blackjack;
 
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
-import static org.junit.Assert.*;
+import static blackjack.Rank.ACE;
+import static blackjack.Rank.FOUR;
+import static blackjack.Rank.QUEEN;
+import static blackjack.Rank.TEN;
+import static blackjack.Suit.CLUBS;
+import static blackjack.Suit.DIAMONDS;
+import static blackjack.Suit.HEARTS;
+import static blackjack.Suit.SPADES;
 
 public class CardTest {
 
     @Test
     public void construct_card_from_suit_and_rank() {
-        Card clubsAce = new Card('C',"A");
-        Card diamondsFour = new Card('D',"4");
-        Card heartsTen = new Card('H',"10");
-        Card spadesQueen = new Card('S',"Q");
+        Card clubsAce = new Card(CLUBS, ACE);
+        Card diamondsFour = new Card(DIAMONDS, FOUR);
+        Card heartsTen = new Card(HEARTS, TEN);
+        Card spadesQueen = new Card(SPADES, QUEEN);
 
         assertEquals("CA", clubsAce.uniqueCardId());
         assertEquals("D4", diamondsFour.uniqueCardId());
@@ -20,7 +28,7 @@ public class CardTest {
     }
 
     @Test
-    public void construct_card_from_unique_card_id(){
+    public void construct_card_from_unique_card_id() {
         Card clubsAce = new Card("CA");
         Card diamondsFour = new Card("D4");
         Card heartsTen = new Card("H10");
