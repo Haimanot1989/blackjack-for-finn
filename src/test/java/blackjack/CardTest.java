@@ -40,4 +40,19 @@ public class CardTest {
         assertEquals("SQ", spadesQueen.uniqueCardId());
 
     }
+
+    @Test
+    public void calculate_card_point(){
+        Card clubsAce = new Card("CA");
+        Card diamondsFour = new Card("D4");
+        Card heartsTen = new Card("H10");
+        Card spadesQueen = new Card("SQ");
+
+        assertEquals(11, clubsAce.point());
+        assertEquals(4, diamondsFour.point());
+        assertEquals(10, heartsTen.point());
+        assertEquals(10, spadesQueen.point());
+
+
+    }
 }
