@@ -15,17 +15,21 @@ public class Hand {
         this.player = player;
     }
 
-    public void takeCard(Deck deck){
+    public void takeCard(Deck deck) {
         Card card = deck.dealCard();
         cards.add(card);
     }
 
-    public String printCardIds(){
+    public String printCardIds() {
         return printCards(cards);
     }
 
-    public int size(){
+    public int size() {
         return cards.size();
+    }
+
+    public int score() {
+        return cards.stream().map(Card::point).reduce(0, (c1, c2) -> (c1 + c2));
     }
 
     @Override
@@ -47,7 +51,7 @@ public class Hand {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return player.getName() + ": " + printCards(cards);
     }
 }
