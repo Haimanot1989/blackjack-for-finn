@@ -36,8 +36,12 @@ public class Card {
         return suit.suitAcronym() + rank.value();
     }
 
-    public int point(){
-        switch (this.rank){
+    boolean isAce() {
+        return this.rank == ACE;
+    }
+
+    int point() {
+        switch (this.rank) {
             case TWO:
                 return 2;
             case THREE:
