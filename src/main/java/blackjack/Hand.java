@@ -8,29 +8,36 @@ import java.util.List;
 import static util.CardUtil.printCards;
 
 public class Hand {
-    private Player player;
     private List<Card> cards = new ArrayList<>();
 
-    public Hand(Player player) {
-        this.player = player;
-    }
-
-    public void takeCard(Deck deck) {
-        Card card = deck.dealCard();
+    void addCard(Card card) {
         cards.add(card);
     }
 
-    public String printCardIds() {
+    String printCardIds() {
         return printCards(cards);
     }
 
-    public int size() {
+    int size() {
         return cards.size();
     }
 
-    public int score() {
+    int score() {
         return cards.stream().map(Card::point).reduce(0, (c1, c2) -> (c1 + c2));
     }
+
+    public boolean isInitiallyBlackjack() {
+        return size() == 2 && score() == 21;
+    }
+
+    boolean isInitiallyDoubleAce() {
+        return cards.size() == 2 && cards.stream().allMatch(Card::isAce);
+    }
+
+    boolean busted() {
+        return score() > 21;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -45,13 +52,12 @@ public class Hand {
         Hand hand = (Hand) o;
 
         return new EqualsBuilder()
-                .append(player, hand.player)
                 .append(cards, hand.cards)
                 .isEquals();
     }
 
     @Override
     public String toString() {
-        return player.getName() + ": " + printCards(cards);
+        return printCards(cards);
     }
 }
