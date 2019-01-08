@@ -2,33 +2,60 @@ package blackjack;
 
 import util.CardUtil;
 
-import java.util.Arrays;
-import java.util.List;
-
-public class Game {
+class Game {
+    private final static int PLAYER_MIN_SCORE_LIMIT = 17;
     private String values;
+    private Player sam = new Player("Sam");
+    private Player dealer = new Player("Dealer");
 
 
-    public Game(String filePath) {
+    Game(String filePath) {
         values = CardUtil.readCardListFromFile(filePath);
     }
 
-    public void simulateGame() {
-        deal(Arrays.asList(new Player("Sam"), new Player("Dealer")),
-                new Deck(values));
+    Game(){
+        values = null;
     }
 
-    private void deal(List<Player> players, Deck deck) {
-        Hand samHand = new Hand(players.get(0));
-        Hand dealerHand = new Hand(players.get(1));
+    void simulateGame() {
+        Deck deck = new Deck(values);
+        dealInitialCardsToPlayers(deck);
 
-        for (int i = 0; i < 2; i++) {
-            samHand.takeCard(deck);
-            dealerHand.takeCard(deck);
+        Player winner = determineWinner(deck);
+        printWinner(winner.getName());
+    }
+
+    private Player determineWinner(Deck deck) {
+        if (sam.hasBlackjack() || dealer.hasBlackjack()) {
+            return sam;
+        }
+        if (sam.hasDoubleAce() && dealer.hasDoubleAce()) {
+            return dealer;
         }
 
-        System.out.println(samHand);
-        System.out.println(dealerHand);
-        System.out.println(deck);
+        sam.drawCard(deck, PLAYER_MIN_SCORE_LIMIT);
+        if (sam.hasBustedHand()) {
+            return dealer;
+        }
+
+        dealer.drawCard(deck, sam.score());
+        if (dealer.hasBustedHand()) {
+            return sam;
+        }
+
+        return dealer.score() > sam.score() ? dealer : sam;
+    }
+
+    private void dealInitialCardsToPlayers(Deck deck) {
+        sam.receiveCard(deck.dealCard());
+        dealer.receiveCard(deck.dealCard());
+        sam.receiveCard(deck.dealCard());
+        dealer.receiveCard(deck.dealCard());
+    }
+
+    private void printWinner(String winnerName) {
+        System.out.println(winnerName);
+        System.out.println(sam);
+        System.out.println(dealer);
     }
 }
