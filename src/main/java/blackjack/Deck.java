@@ -1,36 +1,36 @@
 package blackjack;
 
 import org.apache.commons.lang3.StringUtils;
-import util.CardUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static util.CardUtil.printCards;
 
 public class Deck {
-    private List<Card> cards = new ArrayList<>();
+    private List<Card> cards;
 
     public Deck(String values) {
         if (StringUtils.isBlank(values)) {
-            System.out.println("Test");
             cards = initializeStandard52CardDeck();
         } else {
             cards = convertValuesToCards(values);
         }
     }
 
-    public Card dealCard() {
+    Card dealCard() {
         return cards.remove(0);
     }
 
-    String printCardIds() {
-        return printCards(cards);
+    boolean isEmpty() {
+        return cards.isEmpty();
     }
 
-    int size() {
+    int size(){
         return cards.size();
     }
 
@@ -65,18 +65,16 @@ public class Deck {
         return cards;
     }
 
-    private List<Card> convertValuesToCards(String values) {
-        List<Card> cards = new ArrayList<>();
-        String[] uniqueCardIds = values.split(",");
-        for (String uniqueCardId : uniqueCardIds) {
-            cards.add(new Card(uniqueCardId.trim()));
-        }
-        return cards;
+    private List<Card> convertValuesToCards(String commaSeperatedUniqueCardIds) {
+        String[] uniqueCardIds = commaSeperatedUniqueCardIds.split(",");
+        return Arrays.stream(uniqueCardIds)
+                .map(id -> new Card(id.trim()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public String toString() {
-        return CardUtil.printCards(cards);
+        return printCards(cards);
     }
 
 }
